@@ -1,11 +1,13 @@
 package com.example.jessemitchell.builditbigger;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.example.Jokes;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
+        Jokes jokes = new Jokes();
+        Toast.makeText(this, jokes.getJoke(), Toast.LENGTH_SHORT).show();
     }
 }
