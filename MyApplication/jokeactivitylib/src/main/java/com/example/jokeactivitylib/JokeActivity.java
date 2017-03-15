@@ -1,21 +1,16 @@
-package com.example.jessemitchell.builditbigger;
+package com.example.jokeactivitylib;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.example.Jokes;
-import com.example.jokeactivitylib.JokeActivity;
-
-public class MainActivity extends AppCompatActivity {
+public class JokeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_joke_main);
     }
 
 
@@ -39,13 +34,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void tellJoke(View view) {
-        Jokes jokes = new Jokes();
-
-        Intent jalIntent = new Intent(this, JokeActivity.class);
-        jalIntent.putExtra("Joke", jokes.getJoke());
-        startActivity(jalIntent);
     }
 }
