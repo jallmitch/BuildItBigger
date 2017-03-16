@@ -1,4 +1,4 @@
-package com.example.jessemitchell.builditbigger;
+package com.example.jessemitchell.builditbigger.free;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.jessemitchell.builditbigger.EndpointAsyncTask;
+import com.example.jessemitchell.builditbigger.R;
 import com.example.jokeactivitylib.JokeActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_free);
     }
 
 
