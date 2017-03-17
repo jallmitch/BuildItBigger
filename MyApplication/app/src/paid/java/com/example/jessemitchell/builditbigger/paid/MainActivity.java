@@ -11,6 +11,8 @@ import com.example.jessemitchell.builditbigger.EndpointAsyncTask;
 import com.example.jessemitchell.builditbigger.R;
 import com.example.jokeactivitylib.JokeActivity;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -44,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
     public void tellJoke(View view) {
 
         try {
-            String joke = new EndpointAsyncTask().execute("Manfred").get();
+            List<String> joke = new EndpointAsyncTask().execute("story", "0").get();
             // use AsyncTask to pull joke
             Intent jalIntent = new Intent(this, JokeActivity.class);
-            jalIntent.putExtra("Joke", joke);
+            jalIntent.putExtra("Joke", joke.get(1));
             startActivity(jalIntent);
         }
         catch(Exception e)

@@ -27,17 +27,30 @@ import javax.inject.Named;
 )
 public class MyEndpoint {
 
+    Jokes jokes = new Jokes();
+    MyBean response = new MyBean();
     /**
      * A simple endpoint method that takes a name and says Hi back
      */
-    @ApiMethod(name = "sayHi")
-    public MyBean sayHi(@Named("name") String name) {
 
-        Jokes jokes = new Jokes();
-        String joke = jokes.getJoke();
-        MyBean response = new MyBean();
-        response.setData(joke);
+    @ApiMethod(name = "knockKnock")
+    public MyBean knockKnock(@Named("kk") int jokeNumber)
+    {
+        response.setData(jokes.getKnockKnock(jokeNumber));
+        return response;
+    }
 
+    @ApiMethod(name = "questionAnswer")
+    public MyBean questionAnswer(@Named("qa") int jokeNumber)
+    {
+        response.setData(jokes.getQA(jokeNumber));
+        return response;
+    }
+
+    @ApiMethod(name = "story")
+    public MyBean story(@Named("story") int jokeNumber)
+    {
+        response.setData(jokes.getStory(jokeNumber));
         return response;
     }
 
