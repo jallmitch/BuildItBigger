@@ -5,6 +5,8 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 import static org.junit.Assert.assertNotEquals;
 
 /**
@@ -18,7 +20,7 @@ public class JokeAsyncTest {
     {
 
         EndpointAsyncTask task = new EndpointAsyncTask();
-        String joke = task.execute("").get();
+        List<String> joke = task.execute("").get();
         assertNotEquals("AsyncTask did not provide a returnable string.","",joke);
     }
 }
