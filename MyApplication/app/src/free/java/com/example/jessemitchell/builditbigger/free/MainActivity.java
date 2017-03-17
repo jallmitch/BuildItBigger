@@ -1,17 +1,11 @@
 package com.example.jessemitchell.builditbigger.free;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.example.jessemitchell.builditbigger.EndpointAsyncTask;
 import com.example.jessemitchell.builditbigger.R;
-import com.example.jokeactivitylib.JokeActivity;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,20 +37,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void tellJoke(View view) {
-
-        try {
-            List<String> joke = new EndpointAsyncTask().execute("knock","1").get();
-            // use AsyncTask to pull joke
-            Intent jalIntent = new Intent(this, JokeActivity.class);
-            jalIntent.putExtra("Joke", joke.get(1));
-            startActivity(jalIntent);
-        }
-        catch(Exception e)
-        {
-
-        }
-    }
-
 }

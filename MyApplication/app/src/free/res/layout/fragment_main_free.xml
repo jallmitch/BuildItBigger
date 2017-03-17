@@ -9,20 +9,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".free.MainActivityFragment">
 
-    <TextView
-        android:id="@+id/instructions_text_view"
+    <ListView
+        android:id="@android:id/list"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/instructions" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/instructions_text_view"
-        android:onClick="tellJoke"
-        android:text="@string/button_text"
-
-        />
+        android:layout_height="wrap_content"/>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
