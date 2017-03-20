@@ -1,19 +1,14 @@
 package com.example.jessemitchell.builditbigger.paid;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.example.jessemitchell.builditbigger.EndpointAsyncTask;
 import com.example.jessemitchell.builditbigger.R;
-import com.example.jokeactivitylib.JokeActivity;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

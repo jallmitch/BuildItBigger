@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="aBlue" type="color">#80D8FF</item>
+    <item name="aGreen" type="color">#64DD17</item>
+
+    <integer-array name="jokeColors">
+        <item>@color/aBlue</item>
+        <item>@color/aGreen</item>
+    </integer-array>
+</resources>
