@@ -1,7 +1,10 @@
 package com.example.jessemitchell.builditbigger.paid;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import com.example.jessemitchell.builditbigger.EndpointAsyncTask;
 import com.example.jessemitchell.builditbigger.R;
 import com.example.jokeactivitylib.JokeActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +25,20 @@ import java.util.List;
  */
 public class MainActivityFragment extends ListFragment {
 
+    public static final String HUMOR = "humor";
+    public static final String KNOCK = "knock";
+    public static final String STORY = "story";
+    public static final String QA = "questAnswer";
+    SharedPreferences prefs;
+
     public MainActivityFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        prefs = getActivity().getSharedPreferences(HUMOR, Context.MODE_PRIVATE);
+
     }
 
     @Override
@@ -41,20 +58,47 @@ public class MainActivityFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
+        String jokeNumber;
         try {
             String humorType = "";
             switch(position)
             {
-                case 1: humorType = "qa"; break;
-                case 2: humorType = "story"; break;
+                case 1:
+                    humorType = "qa";
+                    jokeNumber = checkPref(QA);
+                    break;
+                case 2:
+                    humorType = "story";
+                    jokeNumber = checkPref(STORY);
+                    break;
+                default:
+                    jokeNumber = checkPref(KNOCK);
+                    break;
+
             }
-            List<String> joke = new EndpointAsyncTask().execute(humorType, "0").get();
+
+            List<String> joke = new EndpointAsyncTask().execute(humorType, jokeNumber).get();
+            ArrayList<String> contents = new ArrayList<>(joke);
             Intent jalIntent = new Intent(getContext(), JokeActivity.class);
-            jalIntent.putExtra("Joke", joke.get(1));
+            jalIntent.putStringArrayListExtra("JOKE", contents);
             startActivity(jalIntent);
         }
         catch(Exception e){
 
+        }
+    }
+
+    private String checkPref(String jokeType)
+    {
+        if (prefs.contains(jokeType)){
+            return prefs.getString(jokeType, "0");
+        }
+        else{
+            SharedPreferences.Editor editPref = prefs.edit();
+            editPref.putString(jokeType, "0");
+            editPref.commit();
+
+            return prefs.getString(jokeType, "0");
         }
     }
 }
