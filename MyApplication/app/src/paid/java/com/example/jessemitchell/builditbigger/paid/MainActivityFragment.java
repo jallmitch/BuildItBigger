@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.Jokes;
 import com.example.jessemitchell.builditbigger.EndpointAsyncTask;
 import com.example.jessemitchell.builditbigger.R;
 import com.example.jokeactivitylib.JokeActivity;
@@ -28,7 +29,7 @@ public class MainActivityFragment extends ListFragment {
     public static final String HUMOR = "humor";
     public static final String KNOCK = "knock";
     public static final String STORY = "story";
-    public static final String QA = "questAnswer";
+    public static final String QA = "qa";
     SharedPreferences prefs;
 
     public MainActivityFragment() {
@@ -78,6 +79,7 @@ public class MainActivityFragment extends ListFragment {
             }
 
             List<String> joke = new EndpointAsyncTask().execute(humorType, jokeNumber).get();
+
             ArrayList<String> contents = new ArrayList<>(joke);
             Intent jalIntent = new Intent(getContext(), JokeActivity.class);
             jalIntent.putStringArrayListExtra("JOKE", contents);
@@ -90,15 +92,14 @@ public class MainActivityFragment extends ListFragment {
 
     private String checkPref(String jokeType)
     {
-        if (prefs.contains(jokeType)){
-            return prefs.getString(jokeType, "0");
-        }
-        else{
-            SharedPreferences.Editor editPref = prefs.edit();
-            editPref.putString(jokeType, "0");
-            editPref.commit();
+        Jokes jokes = new Jokes();
+        SharedPreferences.Editor editPref = prefs.edit();
 
-            return prefs.getString(jokeType, "0");
-        }
+        editPref.putString("HumorType", jokeType);
+        editPref.putInt("jokeSize", jokes.getSize(jokeType));
+        editPref.putString(jokeType, "0");
+        editPref.commit();
+
+        return prefs.getString(jokeType, "0");
     }
 }

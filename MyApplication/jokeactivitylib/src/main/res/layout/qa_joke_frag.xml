@@ -1,0 +1,131 @@
+<ScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:useDefaultMargins="true"
+        app:columnCount="12"
+        android:id="@+id/fragment"
+        >
+
+        <Button
+            app:layout_columnSpan="4"
+            android:id="@+id/qa_previous"
+            android:text="@string/previous"
+            android:background="@drawable/rounded_corner"
+            android:onClick="getPrevious"
+            />
+        <Space
+            app:layout_columnSpan="4"
+            app:layout_columnWeight="1"
+            />
+        <Button
+            app:layout_columnSpan="4"
+            android:id="@+id/qa_next"
+            app:layout_gravity="end"
+            android:text="@string/next"
+            android:background="@drawable/rounded_corner"
+            android:onClick="getNext"
+            />
+
+        <!-- Knock Opening -->
+        <TextView
+            app:layout_columnSpan="10"
+            app:layout_columnWeight="3"
+            android:id="@+id/qa_Question"
+            android:background="@drawable/rounded_corner"
+            tools:text="What do you call a nut?"
+            android:textAlignment="viewEnd"
+            android:padding="8dp"
+            />
+        <ImageView
+            app:layout_columnSpan="1"
+            android:background="@drawable/dotsblue"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="-8dp"
+            />
+        <ImageView
+            app:layout_columnSpan="1"
+            android:background="@drawable/donkey"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            />
+
+        <!-- First Response -->
+        <ImageView
+            app:layout_columnSpan="1"
+            android:background="@drawable/hyena"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            />
+        <ImageView
+            app:layout_columnSpan="1"
+            android:background="@drawable/dotsgreen"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="-8dp"
+            />
+        <TextView
+            app:layout_columnSpan="10"
+            app:layout_columnWeight="3"
+            android:background="@drawable/rounded_corner1"
+            android:text="@string/qa_reply"
+            android:textAlignment="viewStart"
+            android:padding="8dp"
+            />
+
+        <!-- Knock Subject -->
+        <TextView
+            app:layout_columnSpan="10"
+            app:layout_columnWeight="3"
+            android:background="@drawable/rounded_corner"
+            android:id="@+id/qa_Answer"
+            android:textAlignment="viewEnd"
+            android:padding="8dp"
+            tools:text="This is what you call it."
+            />
+        <ImageView
+            app:layout_columnSpan="1"
+            android:background="@drawable/dotsblue"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="-8dp"
+            />
+        <ImageView
+            app:layout_columnSpan="1"
+            android:background="@drawable/donkey"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            />
+
+        <!-- Second Response -->
+        <ImageView
+            app:layout_columnSpan="1"
+            android:background="@drawable/hyena"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            />
+        <ImageView
+            app:layout_columnSpan="1"
+            android:background="@drawable/dotsgreen"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="-8dp"
+            />
+        <TextView
+            app:layout_columnSpan="10"
+            app:layout_columnWeight="3"
+            android:background="@drawable/rounded_corner1"
+            android:textAlignment="viewStart"
+            android:padding="8dp"
+            android:text="@string/qa_lol"
+            />
+    </android.support.v7.widget.GridLayout>
+</ScrollView>

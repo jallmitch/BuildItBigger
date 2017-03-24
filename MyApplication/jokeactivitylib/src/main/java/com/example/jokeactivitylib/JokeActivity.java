@@ -5,7 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,12 +14,9 @@ import com.example.Jokes;
 
 import java.util.ArrayList;
 
-public class JokeActivity extends AppCompatActivity {
+public class JokeActivity extends FragmentActivity {
 
     public static final String HUMOR = "humor";
-    public static final String KNOCK = "knock";
-    public static final String STORY = "story";
-    public static final String QA = "questAnswer";
     SharedPreferences prefs;
 
     @Override
@@ -28,7 +25,6 @@ public class JokeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_joke_main);
         prefs = getSharedPreferences(HUMOR, Context.MODE_PRIVATE);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -54,40 +50,45 @@ public class JokeActivity extends AppCompatActivity {
 
     public void getPrevious(View view)
     {
-        Jokes jokes = new Jokes();
-        String jokeNumber = prefs.getString(KNOCK, "0");
-        int prevJoke = Integer.parseInt(jokeNumber)-1;
-        jokes.getKnockKnock(prevJoke);
-
-        SharedPreferences.Editor editJokeNum = prefs.edit();
-        editJokeNum.putInt(KNOCK, prevJoke);
-        editJokeNum.commit();
-
-        Bundle jokeBundle = new Bundle();
-        jokeBundle.putStringArrayList("JOKE", new ArrayList<>(jokes.getKnockKnock(prevJoke)));
-
-        JokeActivityFragment frag = new JokeActivityFragment();
-        frag.setArguments(jokeBundle);
-
-        FragmentManager fm = getFragmentManager();
-        fm.popBackStack();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragment, frag);
-        ft.commit();
+        getJokes(false);
     }
 
     public void getNext(View view)
     {
+        getJokes(true);
+    }
+
+    private void getJokes(boolean isNext)
+    {
         Jokes jokes = new Jokes();
-        String jokeNumber = prefs.getString(KNOCK, "0");
-        int nextJoke = Integer.parseInt(jokeNumber)+1;
+        String humorType = prefs.getString("HumorType", "knock");
+        String jokeNumber = prefs.getString(humorType, "0");
+
+        int nextJoke;
+        if (isNext)
+            nextJoke = Integer.parseInt(jokeNumber)+1;
+        else
+            nextJoke = Integer.parseInt(jokeNumber)-1;
 
         SharedPreferences.Editor editJokeNum = prefs.edit();
-        editJokeNum.putString(KNOCK, String.valueOf(nextJoke));
+        editJokeNum.putString(humorType,  String.valueOf(nextJoke));
         editJokeNum.commit();
 
+        ArrayList<String> newJoke;
+        switch(humorType){
+            case "qa":
+                newJoke = new ArrayList<>(jokes.getQA(nextJoke));
+                break;
+            case "story":
+                newJoke = new ArrayList<>(jokes.getStory(nextJoke));
+                break;
+            default:
+                newJoke = new ArrayList<>(jokes.getKnockKnock(nextJoke));
+                break;
+        }
+
         Bundle jokeBundle = new Bundle();
-        jokeBundle.putStringArrayList("JOKE", new ArrayList<>(jokes.getKnockKnock(nextJoke)));
+        jokeBundle.putStringArrayList("JOKE", newJoke);
 
         JokeActivityFragment frag = new JokeActivityFragment();
         frag.setArguments(jokeBundle);
@@ -95,6 +96,7 @@ public class JokeActivity extends AppCompatActivity {
         FragmentManager fm = getFragmentManager();
         fm.popBackStack();
         FragmentTransaction ft = fm.beginTransaction();
+        ft.add(frag,null);
         ft.replace(R.id.fragment, frag);
         ft.commit();
     }

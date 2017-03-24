@@ -4,8 +4,14 @@
     <string name="action_settings">Settings</string>
 
     <!-- Knock Knock joke strings -->
-    <string name="knockopening">Knock knock.</string>
-    <string name="firstQuestion">Who\'s there?</string>
-    <string name="secondQuestion">%s who?</string>
+    <string name="knockOpening">Knock knock.</string>
+    <string name="firstResponse">Who\'s there?</string>
+    <string name="secondResponse">%s who?</string>
 
+    <!-- Question And Answer Strings -->
+    <string name="qa_reply">I don\'t know, What?</string>
+    <string name="qa_lol">LOL!!!!!</string>
+
+    <string name="previous">Prev</string>
+    <string name="next">Next</string>
 </resources>
