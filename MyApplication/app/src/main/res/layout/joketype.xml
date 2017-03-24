@@ -3,5 +3,9 @@
     android:id="@+id/humorType"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:textAlignment="center"
+    android:textSize="20sp"
+    android:background="@drawable/rounded_corner"
+    android:padding="16dp"
     >
 </TextView>
