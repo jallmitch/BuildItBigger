@@ -1,8 +1,11 @@
 package com.example.jessemitchell.builditbigger.free;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +14,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.Jokes;
 import com.example.jessemitchell.builditbigger.EndpointAsyncTask;
 import com.example.jessemitchell.builditbigger.R;
 import com.example.jokeactivitylib.JokeActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.jokeactivitylib.JokeActivity.HUMOR;
 
 
 /**
@@ -26,8 +33,16 @@ import java.util.List;
  */
 public class MainActivityFragment extends ListFragment {
 
+    SharedPreferences prefs;
+
     private final  String[] values = new String[] {"Knock Knock","Question & Answer","Stories"};
     public MainActivityFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        prefs = getActivity().getSharedPreferences(HUMOR, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -63,8 +78,10 @@ public class MainActivityFragment extends ListFragment {
                     break;
                 default:
                     List<String> joke = new EndpointAsyncTask().execute(humorType, "0").get();
+
+                    checkPref("knock");
                     Intent jalIntent = new Intent(getContext(), JokeActivity.class);
-                    jalIntent.putExtra("Joke", joke.get(1));
+                    jalIntent.putExtra("JOKE", new ArrayList<>(joke));
                     startActivity(jalIntent);
                     break;
             }
@@ -72,5 +89,18 @@ public class MainActivityFragment extends ListFragment {
         catch(Exception e){
 
         }
+    }
+
+    private String checkPref(String jokeType)
+    {
+        Jokes jokes = new Jokes();
+        SharedPreferences.Editor editPref = prefs.edit();
+
+        editPref.putString("HumorType", jokeType);
+        editPref.putInt("jokeSize", jokes.getSize(jokeType));
+        editPref.putString(jokeType, "0");
+        editPref.commit();
+
+        return prefs.getString(jokeType, "0");
     }
 }
