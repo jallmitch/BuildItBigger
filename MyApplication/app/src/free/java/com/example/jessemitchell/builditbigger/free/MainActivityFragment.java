@@ -39,6 +39,7 @@ public class MainActivityFragment extends ListFragment {
     private final String STORIES = "Stories";
 
     private final  String[] values = new String[] {KNOCK_KNOCK,QUESTION_ANSWER,STORIES};
+
     public MainActivityFragment() {
     }
 
