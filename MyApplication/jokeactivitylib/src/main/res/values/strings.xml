@@ -14,4 +14,11 @@
 
     <string name="previous">Prev</string>
     <string name="next">Next</string>
+
+    <!-- Shared Preferences -->
+    <string name="extra_data">JOKE</string>
+    <string name="humor_type">humorType</string>
+    <string name="joke_size">jokeSize</string>
+    <string name="knock">knock</string>
+    <string name="first_joke">0</string>
 </resources>

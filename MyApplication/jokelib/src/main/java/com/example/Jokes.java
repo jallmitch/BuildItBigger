@@ -12,9 +12,11 @@ import java.util.List;
 
 public class Jokes {
 
-    private List<List<String>> knockknock = new ArrayList<>();
-    private List<List<String>> questionAnswer = new ArrayList<>();
-    private List<List<String>> stories = new ArrayList<>();
+    private final List<List<String>> knockknock = new ArrayList<>();
+    private final List<List<String>> questionAnswer = new ArrayList<>();
+    private final List<List<String>> stories = new ArrayList<>();
+    private static final String QA = "qa";
+    private static final String STORY = "story";
 
     public Jokes(){
 
@@ -65,9 +67,9 @@ public class Jokes {
     {
         switch (jokeType)
         {
-            case "qa":
+            case QA:
                 return questionAnswer.size();
-            case "story":
+            case STORY:
                 return stories.size();
             default:
                 return knockknock.size();

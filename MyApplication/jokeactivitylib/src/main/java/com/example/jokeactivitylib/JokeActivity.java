@@ -17,7 +17,9 @@ import java.util.ArrayList;
 public class JokeActivity extends FragmentActivity {
 
     public static final String HUMOR = "humor";
-    SharedPreferences prefs;
+    private static final String QA = "qa";
+    private static final String STORY = "story";
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +63,8 @@ public class JokeActivity extends FragmentActivity {
     private void getJokes(boolean isNext)
     {
         Jokes jokes = new Jokes();
-        String humorType = prefs.getString("HumorType", "knock");
-        String jokeNumber = prefs.getString(humorType, "0");
+        String humorType = prefs.getString(getString(R.string.humor_type), getString(R.string.knock));
+        String jokeNumber = prefs.getString(humorType, getString(R.string.first_joke));
 
         int nextJoke;
         if (isNext)
@@ -72,14 +74,14 @@ public class JokeActivity extends FragmentActivity {
 
         SharedPreferences.Editor editJokeNum = prefs.edit();
         editJokeNum.putString(humorType,  String.valueOf(nextJoke));
-        editJokeNum.commit();
+        editJokeNum.apply();
 
         ArrayList<String> newJoke;
         switch(humorType){
-            case "qa":
+            case QA:
                 newJoke = new ArrayList<>(jokes.getQA(nextJoke));
                 break;
-            case "story":
+            case STORY:
                 newJoke = new ArrayList<>(jokes.getStory(nextJoke));
                 break;
             default:
@@ -88,7 +90,7 @@ public class JokeActivity extends FragmentActivity {
         }
 
         Bundle jokeBundle = new Bundle();
-        jokeBundle.putStringArrayList("JOKE", newJoke);
+        jokeBundle.putStringArrayList(getString(R.string.extra_data), newJoke);
 
         JokeActivityFragment frag = new JokeActivityFragment();
         frag.setArguments(jokeBundle);

@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">Build it Bigger FREE</string>
-    <string name="instructions">Press the button for a delicious joke!</string>
-    <string name="button_text">Tell Joke</string>
     <string name="action_settings">Settings</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 
-    <string name="KNOCK_KNOCK">knockknock</string>
+    <!-- Bundle Extra -->
+    <string name="extra_data">JOKE</string>
+
+    <!-- Shared Preferences -->
+    <string name="humor_type">humorType</string>
+    <string name="joke_size">jokeSize</string>
+    <string name="knock">knock</string>
+    <string name="first_joke">0</string>
 </resources>

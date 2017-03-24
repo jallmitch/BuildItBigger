@@ -26,6 +26,9 @@ import java.util.List;
  */
 public class MainActivityFragment extends ListFragment {
 
+    private final String KNOCK_KNOCK = "Knock Knock";
+    private final String QUESTION_ANSWER = "Question & Answer";
+    private final String STORIES = "Stories";
     public static final String HUMOR = "humor";
     public static final String KNOCK = "knock";
     public static final String STORY = "story";
@@ -46,7 +49,7 @@ public class MainActivityFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        String[] values = new String[] {"Knock Knock","Question & Answer","Stories"};
+        String[] values = new String[] {KNOCK_KNOCK,QUESTION_ANSWER,STORIES};
         View root = inflater.inflate(R.layout.fragment_main_paid, container, false);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.joketype, values);
 
@@ -65,11 +68,11 @@ public class MainActivityFragment extends ListFragment {
             switch(position)
             {
                 case 1:
-                    humorType = "qa";
+                    humorType = QA;
                     jokeNumber = checkPref(QA);
                     break;
                 case 2:
-                    humorType = "story";
+                    humorType = STORY;
                     jokeNumber = checkPref(STORY);
                     break;
                 default:
@@ -82,7 +85,7 @@ public class MainActivityFragment extends ListFragment {
 
             ArrayList<String> contents = new ArrayList<>(joke);
             Intent jalIntent = new Intent(getContext(), JokeActivity.class);
-            jalIntent.putStringArrayListExtra("JOKE", contents);
+            jalIntent.putStringArrayListExtra(getString(R.string.extra_data), contents);
             startActivity(jalIntent);
         }
         catch(Exception e){
@@ -95,11 +98,11 @@ public class MainActivityFragment extends ListFragment {
         Jokes jokes = new Jokes();
         SharedPreferences.Editor editPref = prefs.edit();
 
-        editPref.putString("HumorType", jokeType);
-        editPref.putInt("jokeSize", jokes.getSize(jokeType));
-        editPref.putString(jokeType, "0");
+        editPref.putString(getString(R.string.humor_type), jokeType);
+        editPref.putInt(getString(R.string.joke_size), jokes.getSize(jokeType));
+        editPref.putString(jokeType, getString(R.string.first_joke));
         editPref.commit();
 
-        return prefs.getString(jokeType, "0");
+        return prefs.getString(jokeType, getString(R.string.first_joke));
     }
 }
