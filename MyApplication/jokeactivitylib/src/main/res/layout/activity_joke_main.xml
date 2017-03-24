@@ -1,7 +1,22 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:name="com.example.jokeactivitylib.JokeActivityFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout="@layout/knock_joke_frag"
+    >
+</fragment>
+
+<!-- Setup different fragments based off of the joke type
+
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment"
     android:name="com.example.jokeactivitylib.JokeActivityFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout="@layout/fragment_joke" />
+    tools:layout="@layout/knock_joke_activity"
+    >
+</fragment>
+
+-->

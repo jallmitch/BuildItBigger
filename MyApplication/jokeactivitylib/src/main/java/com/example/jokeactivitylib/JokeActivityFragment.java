@@ -2,17 +2,19 @@ package com.example.jokeactivitylib;
 
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayout;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import static com.example.jokeactivitylib.JokeActivity.HUMOR;
 
 
 /**
@@ -20,7 +22,7 @@ import java.util.ArrayList;
  */
 public class JokeActivityFragment extends Fragment {
 
-    private GridLayout mGridLayout;
+    private SharedPreferences prefs;
     ArrayList<String> joke;
 
     public JokeActivityFragment() {
@@ -30,9 +32,13 @@ public class JokeActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        boolean knockKnock = true;
         if (container != null)
-            container = null;
+            container.removeAllViews();
+
+        prefs = this.getActivity().getSharedPreferences(HUMOR, Context.MODE_PRIVATE);
+
+        String humorType = prefs.getString("HumorType", "knock");
+
         Bundle arguments = getArguments();
         if (arguments == null) {
             joke = getActivity().getIntent().getExtras().getStringArrayList("JOKE");
@@ -40,132 +46,120 @@ public class JokeActivityFragment extends Fragment {
         else{
             joke = arguments.getStringArrayList("JOKE");
         }
-        View root = inflater.inflate(R.layout.fragment_joke, container, false);
-        mGridLayout = (GridLayout)root.findViewById(R.id.jokesGridView);
 
-        if (knockKnock)
-        {
-            buildKnockKnockView(joke.get(0), joke.get(1));
+        boolean isFirst = true;
+        boolean isLast = false;
+
+        int jokeSize = prefs.getInt("jokeSize",0);
+        int jokeNum = Integer.parseInt(joke.get(0));
+
+        if (jokeNum == 1) {
+            isFirst = true;
+            isLast = false;
+        }
+        else if (jokeNum < jokeSize) {
+            isFirst = false;
+            isLast = false;
+        }
+        else if (jokeNum == jokeSize){
+            isFirst = false;
+            isLast = true;
         }
 
-        return root;
+        switch (humorType)
+        {
+            case "qa":
+                View qa_root = inflater.inflate(R.layout.qa_joke_frag, container, false);
+
+                Button qa_previous = (Button)qa_root.findViewById(R.id.qa_previous);
+                if (isFirst){
+                    qa_previous.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    qa_previous.setVisibility(View.VISIBLE);
+                }
+
+                Button qa_next = (Button)qa_root.findViewById(R.id.qa_next);
+                if (isLast){
+                    qa_next.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    qa_next.setVisibility(View.VISIBLE);
+                }
+
+                TextView question = (TextView)qa_root.findViewById(R.id.qa_Question);
+                question.setText(joke.get(2));
+
+                TextView answer = (TextView)qa_root.findViewById(R.id.qa_Answer);
+                answer.setText(joke.get(3));
+                return qa_root;
+            case "story":
+                View story_root = inflater.inflate(R.layout.story_joke_frag, container, false);
+
+                Button story_previous = (Button)story_root.findViewById(R.id.story_previous);
+                if (isFirst){
+                    story_previous.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    story_previous.setVisibility(View.VISIBLE);
+                }
+
+                Button story_next = (Button)story_root.findViewById(R.id.story_next);
+                if (isLast){
+                    story_next.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    story_next.setVisibility(View.VISIBLE);
+                }
+
+                TextView title = (TextView)story_root.findViewById(R.id.storyTitle);
+                title.setText(joke.get(2));
+
+                TextView content = (TextView)story_root.findViewById(R.id.storyContent);
+                content.setText(joke.get(3));
+                return story_root;
+            default:
+                View root = inflater.inflate(R.layout.knock_joke_frag, container, false);
+
+                Button previous = (Button)root.findViewById(R.id.previous);
+                if (isFirst){
+                    previous.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    previous.setVisibility(View.VISIBLE);
+                }
+
+                Button next = (Button)root.findViewById(R.id.next);
+                if (isLast){
+                    next.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    next.setVisibility(View.VISIBLE);
+                }
+
+                TextView subject = (TextView)root.findViewById(R.id.knockSubject);
+                subject.setText(joke.get(2));
+
+                Resources res = getResources();
+                String questionTwo = res.getString(R.string.secondResponse, joke.get(2));
+                TextView subjectResponse = (TextView)root.findViewById(R.id.subjectResponse);
+                subjectResponse.setText(questionTwo);
+
+                TextView punchLine = (TextView)root.findViewById(R.id.knockPunchLine);
+                punchLine.setText(joke.get(3));
+                return root;
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mGridLayout.removeAllViews();
+//        mGridLayout.removeAllViews();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-    }
-
-    private TextView getTextView(String text, String color, int rowNumber)
-    {
-        GridLayout.LayoutParams textParam = new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED,0),GridLayout.spec(GridLayout.UNDEFINED,0));
-        textParam.rowSpec = GridLayout.spec(rowNumber);
-
-        TextView openingState = new TextView(getActivity());
-
-        if (color.equals("blue")) {
-            textParam.columnSpec = GridLayout.spec(0,10,10f);
-            textParam.rightMargin=1;
-            openingState.setBackgroundResource(R.drawable.rounded_corner);
-            openingState.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        }
-        else {
-            textParam.columnSpec = GridLayout.spec(2,10,10f);
-            textParam.leftMargin=(1-20);
-            openingState.setBackgroundResource(R.drawable.rounded_corner1);
-        }
-
-        openingState.setPadding(25,25,25,25);
-        openingState.setText(text);
-        openingState.setLayoutParams(textParam);
-
-        return openingState;
-    }
-
-    private ImageView getDotsImage(String dotColor, int rowNumber)
-    {
-        ImageView blueDots = new ImageView(getActivity());
-        GridLayout.LayoutParams blueDotParam = new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED,0),GridLayout.spec(GridLayout.UNDEFINED,0));
-        blueDotParam.height=90;
-        blueDotParam.width=90;
-        blueDotParam.rowSpec = GridLayout.spec(rowNumber);
-        blueDots.setLayoutParams(blueDotParam);
-
-        if (dotColor.equals("blue")) {
-            blueDotParam.leftMargin=(1-20);
-            blueDotParam.columnSpec = GridLayout.spec(10);
-            blueDots.setBackgroundResource(R.drawable.dotsblue);
-        }
-        else {
-            blueDotParam.rightMargin=1;
-            blueDotParam.columnSpec = GridLayout.spec(1);
-            blueDots.setBackgroundResource(R.drawable.dotsgreen);
-        }
-        return blueDots;
-    }
-
-    private ImageView getCharacter(String character, int rowNumber)
-    {
-        ImageView charView = new ImageView(getActivity());
-        GridLayout.LayoutParams charParam = new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED,0),GridLayout.spec(GridLayout.UNDEFINED,0));
-        charParam.height=90;
-        charParam.width=90;
-        charParam.rowSpec = GridLayout.spec(rowNumber);
-        charView.setLayoutParams(charParam);
-
-
-        if (character.equals("donkey")) {
-            charParam.columnSpec = GridLayout.spec(11);
-            charView.setBackgroundResource(R.drawable.donkey);
-            charParam.setGravity(Gravity.END);
-        }
-        else {
-            charParam.columnSpec = GridLayout.spec(0);
-            charView.setBackgroundResource(R.drawable.hyena);
-        }
-
-        return  charView;
-    }
-
-    private void buildKnockKnockView(String question, String punchLine)
-    {
-        mGridLayout.addView(getTextView(getString(R.string.knockopening),"blue", 1));
-        mGridLayout.addView(getDotsImage("blue",1));
-        mGridLayout.addView(getCharacter("donkey",1));
-
-        mGridLayout.addView(getCharacter("hyena",2));
-        mGridLayout.addView(getDotsImage("green",2));
-        mGridLayout.addView(getTextView(getString(R.string.firstQuestion),"green",2));
-
-        mGridLayout.addView(getTextView(question,"blue", 3));
-        mGridLayout.addView(getDotsImage("blue",3));
-        mGridLayout.addView(getCharacter("donkey",3));
-
-        Resources res = getResources();
-        String questionTwo = res.getString(R.string.secondQuestion, question);
-        mGridLayout.addView(getCharacter("hyena",4));
-        mGridLayout.addView(getDotsImage("green",4));
-        mGridLayout.addView(getTextView(questionTwo,"green",4));
-
-        mGridLayout.addView(getTextView(punchLine,"blue", 5));
-        mGridLayout.addView(getDotsImage("blue",5));
-        mGridLayout.addView(getCharacter("donkey",5));
-    }
-
-    private View buildQuestionAnswerView(View root,  ArrayList<String> joke)
-    {
-        return root;
-    }
-
-    private View buildStoryView(View root,  ArrayList<String> joke)
-    {
-        return root;
     }
 
 }
