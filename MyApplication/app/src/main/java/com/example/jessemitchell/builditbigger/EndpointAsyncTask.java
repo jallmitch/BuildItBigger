@@ -22,8 +22,11 @@ import static com.example.jessemitchell.builditbigger.BuildConfig.APP_ENGINE_URL
  */
 
 public class EndpointAsyncTask extends AsyncTask<String, Void, List<String>> {
+
+    private final String APP_ENGINE_ROOT = APP_ENGINE_URL + ":" + APP_ENGINE_PORT + APP_ENGINE_END_POINT;
+    private final String QA = "qa";
+    private final String STORY = "story";
     private MyApi myApiService = null;
-    private String APP_ENGINE_ROOT = APP_ENGINE_URL + ":" + APP_ENGINE_PORT + APP_ENGINE_END_POINT;
 
     @Override
     protected List<String> doInBackground(String... params) {
@@ -47,10 +50,10 @@ public class EndpointAsyncTask extends AsyncTask<String, Void, List<String>> {
         try {
             switch (name)
             {
-                case "qa":
+                case QA:
                     data =myApiService.questionAnswer(number).execute().getData();
                     break;
-                case "story":
+                case STORY:
                     data = myApiService.story(number).execute().getData();
                     break;
                 default:

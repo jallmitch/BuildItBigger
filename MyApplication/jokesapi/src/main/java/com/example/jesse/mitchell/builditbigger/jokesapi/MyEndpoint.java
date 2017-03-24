@@ -21,14 +21,13 @@ import javax.inject.Named;
         version = "v1",
         namespace = @ApiNamespace(
                 ownerDomain = "jokesapi.builditbigger.mitchell.jesse.example.com",
-                ownerName = "jokesapi.builditbigger.mitchell.jesse.example.com",
-                packagePath = ""
+                ownerName = "jokesapi.builditbigger.mitchell.jesse.example.com"
         )
 )
 public class MyEndpoint {
 
-    Jokes jokes = new Jokes();
-    MyBean response = new MyBean();
+    private final Jokes jokes = new Jokes();
+    private final MyBean response = new MyBean();
     /**
      * A simple endpoint method that takes a name and says Hi back
      */

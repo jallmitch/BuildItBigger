@@ -23,7 +23,7 @@ import static com.example.jokeactivitylib.JokeActivity.HUMOR;
 public class JokeActivityFragment extends Fragment {
 
     private SharedPreferences prefs;
-    ArrayList<String> joke;
+    private ArrayList<String> joke;
 
     public JokeActivityFragment() {
     }
@@ -37,20 +37,20 @@ public class JokeActivityFragment extends Fragment {
 
         prefs = this.getActivity().getSharedPreferences(HUMOR, Context.MODE_PRIVATE);
 
-        String humorType = prefs.getString("HumorType", "knock");
-
+        String humorType = prefs.getString(getString(R.string.humor_type), getString(R.string.knock));
+        String jokeExtra = getString(R.string.extra_data);
         Bundle arguments = getArguments();
         if (arguments == null) {
-            joke = getActivity().getIntent().getExtras().getStringArrayList("JOKE");
+            joke = getActivity().getIntent().getExtras().getStringArrayList(jokeExtra);
         }
         else{
-            joke = arguments.getStringArrayList("JOKE");
+            joke = arguments.getStringArrayList(jokeExtra);
         }
 
         boolean isFirst = true;
         boolean isLast = false;
 
-        int jokeSize = prefs.getInt("jokeSize",0);
+        int jokeSize = prefs.getInt(getString(R.string.joke_size),0);
         int jokeNum = Integer.parseInt(joke.get(0));
 
         if (jokeNum == 1) {
@@ -149,17 +149,6 @@ public class JokeActivityFragment extends Fragment {
                 punchLine.setText(joke.get(3));
                 return root;
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        mGridLayout.removeAllViews();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 
 }

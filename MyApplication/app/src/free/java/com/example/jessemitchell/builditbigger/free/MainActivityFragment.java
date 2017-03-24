@@ -33,9 +33,12 @@ import static com.example.jokeactivitylib.JokeActivity.HUMOR;
  */
 public class MainActivityFragment extends ListFragment {
 
-    SharedPreferences prefs;
+    private SharedPreferences prefs;
+    private final String KNOCK_KNOCK = "Knock Knock";
+    private final String QUESTION_ANSWER = "Question & Answer";
+    private final String STORIES = "Stories";
 
-    private final  String[] values = new String[] {"Knock Knock","Question & Answer","Stories"};
+    private final  String[] values = new String[] {KNOCK_KNOCK,QUESTION_ANSWER,STORIES};
     public MainActivityFragment() {
     }
 
@@ -67,21 +70,18 @@ public class MainActivityFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         try {
-            String humorType = "";
             switch(position)
             {
                 case 1:
-                    Toast.makeText(getContext(),"Please purchase the Paid version to access the Q&A jokes", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),getString(R.string.qa_paid_message), Toast.LENGTH_SHORT).show();
                     break;
                 case 2:
-                    Toast.makeText(getContext(),"Please purchase the Paid version to access the Story jokes", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),getString(R.string.story_paid_message), Toast.LENGTH_SHORT).show();
                     break;
                 default:
-                    List<String> joke = new EndpointAsyncTask().execute(humorType, "0").get();
-
-                    checkPref("knock");
+                    List<String> joke = new EndpointAsyncTask().execute("", checkPref()).get();
                     Intent jalIntent = new Intent(getContext(), JokeActivity.class);
-                    jalIntent.putExtra("JOKE", new ArrayList<>(joke));
+                    jalIntent.putExtra(getString(R.string.extra_data), new ArrayList<>(joke));
                     startActivity(jalIntent);
                     break;
             }
@@ -91,16 +91,16 @@ public class MainActivityFragment extends ListFragment {
         }
     }
 
-    private String checkPref(String jokeType)
+    private String checkPref()
     {
         Jokes jokes = new Jokes();
         SharedPreferences.Editor editPref = prefs.edit();
+        String knock = getString(R.string.knock);
+        editPref.putString(getString(R.string.humor_type), knock);
+        editPref.putInt(getString(R.string.joke_size), jokes.getSize(knock));
+        editPref.putString(knock, getString(R.string.first_joke));
+        editPref.apply();
 
-        editPref.putString("HumorType", jokeType);
-        editPref.putInt("jokeSize", jokes.getSize(jokeType));
-        editPref.putString(jokeType, "0");
-        editPref.commit();
-
-        return prefs.getString(jokeType, "0");
+        return prefs.getString(knock, getString(R.string.first_joke));
     }
 }
