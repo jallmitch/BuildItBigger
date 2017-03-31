@@ -15,6 +15,15 @@
         android:id="@+id/fragment"
         >
 
+        <!-- Joke Type Title -->
+        <TextView
+            app:layout_columnSpan="12"
+            app:layout_columnWeight="3"
+            android:text="Knock Knock"
+            android:textSize="18sp"
+            app:layout_gravity="center"
+            />
+
         <Button
             app:layout_columnSpan="4"
             android:id="@+id/previous"

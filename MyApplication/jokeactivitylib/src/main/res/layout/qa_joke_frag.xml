@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,6 +14,15 @@
         app:columnCount="12"
         android:id="@+id/fragment"
         >
+
+        <!-- Joke Type Title -->
+        <TextView
+            app:layout_columnSpan="12"
+            app:layout_columnWeight="3"
+            android:text="Question And Answer"
+            android:textSize="18sp"
+            app:layout_gravity="center"
+            />
 
         <Button
             app:layout_columnSpan="4"
@@ -33,6 +43,7 @@
             android:background="@drawable/rounded_corner"
             android:onClick="getNext"
             />
+
 
         <!-- Knock Opening -->
         <TextView
