@@ -18,7 +18,7 @@
         <TextView
             app:layout_columnSpan="12"
             app:layout_columnWeight="3"
-            android:text="Story Humor"
+            android:text="@string/title_story"
             android:textSize="18sp"
             app:layout_gravity="center"
             />

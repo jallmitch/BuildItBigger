@@ -3,6 +3,11 @@
 
     <string name="action_settings">Settings</string>
 
+    <!-- Fragment Titles -->
+    <string name="title_knock">Knock Knock</string>
+    <string name="title_qa">Question And Answer</string>
+    <string name="title_story">Story Humor</string>
+
     <!-- Knock Knock joke strings -->
     <string name="knockOpening">Knock knock.</string>
     <string name="firstResponse">Who\'s there?</string>

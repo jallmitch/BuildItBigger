@@ -19,7 +19,7 @@
         <TextView
             app:layout_columnSpan="12"
             app:layout_columnWeight="3"
-            android:text="Knock Knock"
+            android:text="@string/title_knock"
             android:textSize="18sp"
             app:layout_gravity="center"
             />
