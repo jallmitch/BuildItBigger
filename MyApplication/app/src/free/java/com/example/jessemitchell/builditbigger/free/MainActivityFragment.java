@@ -18,8 +18,10 @@ import com.example.Jokes;
 import com.example.jessemitchell.builditbigger.EndpointAsyncTask;
 import com.example.jessemitchell.builditbigger.R;
 import com.example.jokeactivitylib.JokeActivity;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ import static com.example.jokeactivitylib.JokeActivity.HUMOR;
  */
 public class MainActivityFragment extends ListFragment {
 
+    private InterstitialAd mInterstitialAd;
     private SharedPreferences prefs;
     private final String KNOCK_KNOCK = "Knock Knock";
     private final String QUESTION_ANSWER = "Question & Answer";
@@ -53,6 +56,18 @@ public class MainActivityFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main_free, container, false);
+
+        mInterstitialAd = new InterstitialAd(getContext());
+        mInterstitialAd.setAdUnitId(getString(R.string.fullAdd));
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+                showJoke();
+            }
+        });
+
+        requestNewInterstitial();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.joketype, values);
 
@@ -80,12 +95,37 @@ public class MainActivityFragment extends ListFragment {
                     Toast.makeText(getContext(),getString(R.string.story_paid_message), Toast.LENGTH_SHORT).show();
                     break;
                 default:
-                    List<String> joke = new EndpointAsyncTask().execute("", checkPref()).get();
-                    Intent jalIntent = new Intent(getContext(), JokeActivity.class);
-                    jalIntent.putExtra(getString(R.string.extra_data), new ArrayList<>(joke));
-                    startActivity(jalIntent);
+                    if (mInterstitialAd.isLoaded()){
+                        mInterstitialAd.show();
+                    }
+                    else{
+                        showJoke();
+                    }
                     break;
             }
+        }
+        catch(Exception e){
+
+        }
+    }
+
+    private void requestNewInterstitial()
+    {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mInterstitialAd.loadAd(adRequest);
+    }
+
+    private void showJoke()
+    {
+        try {
+
+            List<String> joke = new EndpointAsyncTask().execute("", checkPref()).get();
+            Intent jalIntent = new Intent(getContext(), JokeActivity.class);
+            jalIntent.putExtra(getString(R.string.extra_data), new ArrayList<>(joke));
+            startActivity(jalIntent);
+
         }
         catch(Exception e){
 
@@ -97,6 +137,7 @@ public class MainActivityFragment extends ListFragment {
         Jokes jokes = new Jokes();
         SharedPreferences.Editor editPref = prefs.edit();
         String knock = getString(R.string.knock);
+        editPref.putString(getString(R.string.flavor),getString(R.string.flavor_type));
         editPref.putString(getString(R.string.humor_type), knock);
         editPref.putInt(getString(R.string.joke_size), jokes.getSize(knock));
         editPref.putString(knock, getString(R.string.first_joke));

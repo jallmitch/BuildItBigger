@@ -2,7 +2,11 @@
     <string name="app_name">Build it Bigger FREE</string>
     <string name="action_settings">Settings</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="fullAdd">ca-app-pub-3940256099942544/1033173712</string>
 
     <string name="qa_paid_message">"Please purchase the Paid version to access the Question and Answer jokes"</string>
     <string name="story_paid_message">"Please purchase the Paid version to access the Story jokes"</string>
+
+    <string name="flavor">flavor</string>
+    <string name="flavor_type">FREE</string>
 </resources>
