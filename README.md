@@ -5,7 +5,7 @@ The objective of this project was to educate students on 5 Android building conc
 
 * Java Libraries
 * Android Libraries
-* Google Cloud Endpiont
+* Google Cloud Endpoint
 * Functional Tests
 * Android Application Flavors
 
